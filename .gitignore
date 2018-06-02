@@ -1,0 +1,6 @@
+node_modules
+scss/
+*.scss
+./public/assets/scss
+keys.js
+./config/keys.js
