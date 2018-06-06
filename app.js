@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('express-flash');
 const expressValidator = require('express-validator');
+const compression = require('compression');
 
 const app = express();
 
@@ -19,6 +20,7 @@ const pollRoute = require('./routes/poll');
 const voteRoute = require('./routes/vote');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('port', process.env.PORT || 5000)
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -30,19 +32,19 @@ app.engine('handlebars', exphbs({
   } 
 }));
 app.set('view engine', 'handlebars');
+app.use(compression());
 app.use(expressValidator());
 app.use(session({
   secret: 'pollsannclone',
-  resave: false,
-  saveUninitialized: false
+  resave: true,
+  saveUninitialized: true
 }));
 app.use(flash());
-
 app.use(morgan('dev'));
+app.disable('x-powered-by');
 
 app.use('/', indexRoute);
 app.use('/poll', pollRoute);
 app.use('/vote', voteRoute);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log('Server running.'));
+app.listen(app.get('port'), () => console.log('Server running.'));
