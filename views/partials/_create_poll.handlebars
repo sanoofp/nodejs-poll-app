@@ -1,0 +1,30 @@
+<form action="/poll/create" method="POST">
+
+  <div class="form-group mb-4half">
+    
+    <span class="badge badge-secondary badge-pill py-3 px-3 my-2 font-light text-left shadow"><strong>I.</strong> Enter a Poll title or a question.</span>
+
+    <div class="input-group input-group-lg">
+      <input type="text" class="form-control" placeholder="Enter the Poll title." name="poll-option-title" value="{{polltitle}}" />
+    </div>
+  </div>
+
+  <div class="form-group" id="poll-options">
+
+    <span class="badge badge-secondary badge-pill py-3 px-3 my-2 font-light text-left shadow"><strong>II.</strong> Enter your poll options.<br /> <small>You can provide as much options you needed.</small></span>
+
+      <input type="text" name="poll_option" class="poll-option-input form-control" placeholder="1. Poll option" value="{{pollopt1}}">
+
+      <input type="text" name="poll_option" class="mt-2 poll-option-input form-control" placeholder="2. Poll option" value="{{pollopt2}}">
+
+      <input type="text" name="poll_option" class="mt-2 poll-option-input form-control" placeholder="3. Poll option">
+
+  </div>
+
+  <div class="form-group mt-4">
+    {{!-- <span class="badge badge-secondary badge-pill py-3 px-3 my-2 font-light text-left shadow-lg"> --}}
+    {{!-- <strong>III.</strong> Create your poll</span> --}}
+    <button type="submit" class="btn btn-orange btn-block">Create your poll</button>
+  </div>
+
+</form>

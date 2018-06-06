@@ -3,10 +3,10 @@ const Schema = mongoose.Schema;
 
 const pollsSchema = new Schema({
   id: { type: String, required: true },
-  pollName: { type: String, required: true },
+  pollTitle: { type: String, required: true },
   polls: [{
     pollOption: { type: String, required: true },
-    pollCound: { type: Number, required: true }
+    pollCount: { type: Number, default: 0 }
   }],
   date: {
     type: Date,
@@ -14,5 +14,4 @@ const pollsSchema = new Schema({
   }
 });
 
-const Polls = mongoose.model('polls', pollSchema);
-module.exports = Polls
+module.exports = mongoose.model('polls', pollsSchema)

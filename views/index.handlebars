@@ -1,1 +1,13 @@
-<h1>piepoll</h1>
+<div class="row py-4">
+  <div class="col-md-8">
+
+    <div class="card card-body py-4 create-poll-container">
+      <h2 class="text-center mb-4">Create your <span class="logo-styles">Pie poll</span></h2>
+      {{> _create_poll}}
+    </div>
+
+  </div>
+  <div class="col-md-4">
+    {{> _latest_polls}}
+  </div>
+</div>
