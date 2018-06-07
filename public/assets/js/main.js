@@ -1,24 +1,19 @@
-
 let pollCount = 3;
-
 let createNode = function() {
-    if (document.querySelector('.poll-option-input:last-of-type').value != "") {
-      pollCount++;
-      let node = document.createElement('input');
-      node.setAttribute('type', 'text');
-      node.setAttribute('name',  'poll_option');
-      node.setAttribute('placeholder', `${pollCount}. Poll option`);
-      node.classList.add('mt-2');
-      node.classList.add('form-control');
-      node.classList.add('poll-option-input');
-      
-      document.querySelector('#poll-options').appendChild(node);
-      document.querySelector('.poll-option-input:last-of-type').addEventListener('blur', createNode);
-      
-    }
+  if (document.querySelector('.poll-option-input:last-of-type').value != "") {
+    pollCount++;
+    let node = document.createElement('input');
+    node.setAttribute('type', 'text');
+    node.setAttribute('name',  'poll_option');
+    node.setAttribute('placeholder', `${pollCount}. Poll option`);
+    node.classList.add('mt-2');
+    node.classList.add('form-control');
+    node.classList.add('poll-option-input');
+    document.querySelector('#poll-options').appendChild(node);
+    document.querySelector('.poll-option-input:last-of-type').addEventListener('blur', createNode);
+  }
 }
-document.querySelector('.poll-option-input:last-of-type').addEventListener('blur', createNode);
-// .map(pollitem => pollitem.pollCount).reduce((prev, next) => prev + next)
+document.querySelector('.poll-option-input:last-of-type').addEventListener('blur',createNode);
 $(document).ready(function() {
   $.getJSON("/poll/latest", function(polls) {
     let latestPollDiv = ``;
@@ -38,4 +33,4 @@ $(document).ready(function() {
     });
     $('.latest-polls').html(latestPollDiv);
   });
-})
+});
