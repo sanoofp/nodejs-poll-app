@@ -54,6 +54,7 @@ router.post('/create', (req, res) => {
 
 });
 
+//api for js
 router.get('/latest', (req, res) => {
   Poll.find({})
     .sort({date: 'desc'})
@@ -68,6 +69,7 @@ router.get('/:id', (req, res) => {
     id: req.params.id
   }).then(poll => {
     res.render('poll/index', {
+      pageTitle: `${poll.pollTitle} - Piepoll`,
       poll: poll
     });
   });
@@ -82,6 +84,7 @@ router.get('/info/:id', (req, res) => {
       return b.pollCount - a.pollCount 
     });
     res.render('poll/info', {
+      pageTitle: `${poll.pollTitle} - Piepoll`,      
       poll: poll,
       jsonPoll: encodeURI(JSON.stringify(poll.polls)),
     });

@@ -5,29 +5,38 @@
     <div class="card card-body poll-info create-poll-container">
       <h2>{{poll.pollTitle}}</h2>
 
+      <canvas id="myChart" height="400px"></canvas>
+    
       <div class="info-container">
         
         <div class="row">
-          <div class="col-md-5">
-            
-            <div class="card card-body create-poll-container">
-              <p>Total <span>{{poll.totalVote}} votes</span></p>
-            </div>
-
+          <div class="col-md-4">
+            <p><span>Total</span> {{poll.totalVote}} votes</p>
           </div>
-          <div class="col-md-7 top-votes">
-            
-            <div class="card card-body create-poll-container">
-              <h4>Top votes</h4>
-              <div id="top-3" class="top-3-polls"></div>
+          <div class="col-md-4 top-votes">
+            <h4>Top votes</h4>
+            <div id="top-3" class="top-3-polls"></div>
+          </div>
+          <div class="col-md-4">
+            <h4>Share poll</h4>
+            <div class="share-btns">
+              <a href="#" class="btn btn-outline-primary bs-fb btn-block share-btn"><i class="fa fa-facebook"></i> Facebook</a>
+              <a href="#" class="btn btn-outline-primary bs-whatsapp btn-block share-btn"><i class="fa fa-whatsapp"></i> Whatsapp</a>
             </div>
-          
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-8 mx-auto share-this">
+            <p>Share this Poll:</p>
+            <button onclick="copylink()" type="button" data-toggle="tooltip" data-placement="bottom" class="copy-link" title="Link copied to clipboard">
+              <input type="text" value="http://piepoll.herokuapp.com/poll/{{poll.id}}" id="pollLink" onclick="copylink()" readonly>
+            </button>
+            {{!-- <h6 href="/poll/{{poll.id}}" id="pollLink" class="copy-link">http://piepoll.herokuapp.com/poll/{{poll.id}}</h6> --}}
+            {{!-- <a href="/poll/{{poll.id}}" target="_blank"></a> --}}
           </div>
         </div>
         
       </div>
-
-      <canvas id="myChart" height="400px"></canvas>
     </div>  
     {{!-- <div class="card card-body pie-chart create-poll-container">
     </div> --}}
@@ -52,7 +61,7 @@
 
 </div>
 
-<script type="text/javascript" src="/assets/js/Chart.min.js"></script>
+<script type="text/javascript" src="/assets/js/Chart.min.js"></script>    
 <script>
   const colors = ['#EF6C00', '#EF6C00', '#3498db', '#27ae60', '#2980b9', '#2c3e50'];
   function getRandomColor(index) {
@@ -69,17 +78,16 @@
   let pollOptions = [];
   let pollCounts = [];
   let backgroundColors = [];
+  let top3 = ``;
   
-  pollsArr.map((item) => {
+  pollsArr.map((item, index) => {
     backgroundColors.push(getRandomColor());
     pollOptions.push(item.pollOption);
     pollCounts.push(item.pollCount);
+    if(index < 3) {
+      top3 += `<p>${pollsArr[index].pollOption} <span>${pollsArr[index].pollCount} votes</span></p>`;
+    }
   });
-
-  let top3 = ``;
-  for(let i = 0; i<3; i++) {
-    top3 += `<p>${pollsArr[i].pollOption} <span>${pollsArr[i].pollCount} votes</span></p>`;
-  }
   document.getElementById('top-3').innerHTML = top3;
   
   const myChart = new Chart(ctx, {
