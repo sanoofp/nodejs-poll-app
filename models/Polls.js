@@ -8,6 +8,7 @@ const pollsSchema = new Schema({
     pollOption: { type: String, required: true },
     pollCount: { type: Number, default: 0 }
   }],
+  totalVote: { type: Number, default: 0 },
   date: {
     type: Date,
     default: Date.now

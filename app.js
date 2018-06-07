@@ -11,7 +11,7 @@ const compression = require('compression');
 
 const app = express();
 
-const { generateChart, getLatestPost } = require('./helpers/hbs');
+const { getPollPercent } = require('./helpers/hbs');
 const keys = require('./config/keys');
 mongoose.connect(keys.mongoURI).then(() => console.log('Connected to mongoDB')).catch(err => console.log(err));
 
@@ -22,22 +22,21 @@ const voteRoute = require('./routes/vote');
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('port', process.env.PORT || 5000)
 
+app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.engine('handlebars', exphbs({ 
   defaultLayout: 'main',
   helpers: {
-    generateChart: generateChart,
-    getLatestPost: getLatestPost
+    getPollPercent: getPollPercent 
   } 
 }));
 app.set('view engine', 'handlebars');
-app.use(compression());
 app.use(expressValidator());
 app.use(session({
   secret: 'pollsannclone',
-  resave: true,
-  saveUninitialized: true
+  resave: false,
+  saveUninitialized: false
 }));
 app.use(flash());
 app.use(morgan('dev'));

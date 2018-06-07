@@ -12,6 +12,7 @@ router.post('/:id', (req, res) => {
   
   Polls.findOne({id: req.params.id})
     .then(poll => {
+      poll.totalVote++;
       poll.polls.find((voteitem, idx) => {
         if(voteitem.pollOption === req.body.pollOptions) {
           voteitem.pollCount++;
@@ -21,7 +22,7 @@ router.post('/:id', (req, res) => {
       
       poll.save().then(poll => {
         req.flash('success', {msg: `You are successfully Voted for ${req.body.pollOptions}`});
-        return res.redirect(`/poll/${req.params.id}`);
+        return res.redirect(`/poll/info/${req.params.id}`);
       });
 
     });

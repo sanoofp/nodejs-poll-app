@@ -41,7 +41,6 @@ router.post('/create', (req, res) => {
       pollsOptions.push({ pollOption: item });
     }
   });
-  // console.log(polls);
 
   const poll = new Poll({
     id: id,
@@ -54,7 +53,6 @@ router.post('/create', (req, res) => {
   });
 
 });
-
 
 router.get('/latest', (req, res) => {
   Poll.find({})
@@ -69,7 +67,6 @@ router.get('/:id', (req, res) => {
   Poll.findOne({
     id: req.params.id
   }).then(poll => {
-    console.log(poll);
     res.render('poll/index', {
       poll: poll
     });
@@ -79,12 +76,17 @@ router.get('/:id', (req, res) => {
 router.get('/info/:id', (req, res) => {
   Poll.findOne({
     id: req.params.id
-  }).then(poll => {
-    res.render('poll/index', {
+  })
+  .then(poll => {
+    poll.polls.sort((a, b) => {
+      return b.pollCount - a.pollCount 
+    });
+    res.render('poll/info', {
       poll: poll,
-      voted: true
-    })
-  });
+      jsonPoll: encodeURI(JSON.stringify(poll.polls)),
+    });
+  }).catch(err => console.log(err));
+  
 });
 
 

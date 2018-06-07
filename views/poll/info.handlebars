@@ -1,0 +1,113 @@
+<div class="row">
+  
+  <div class="col-md-8">
+    
+    <div class="card card-body poll-info create-poll-container">
+      <h2>{{poll.pollTitle}}</h2>
+
+      <div class="info-container">
+        
+        <div class="row">
+          <div class="col-md-5">
+            
+            <div class="card card-body create-poll-container">
+              <p>Total <span>{{poll.totalVote}} votes</span></p>
+            </div>
+
+          </div>
+          <div class="col-md-7 top-votes">
+            
+            <div class="card card-body create-poll-container">
+              <h4>Top votes</h4>
+              <div id="top-3" class="top-3-polls"></div>
+            </div>
+          
+          </div>
+        </div>
+        
+      </div>
+
+      <canvas id="myChart" height="400px"></canvas>
+    </div>  
+    {{!-- <div class="card card-body pie-chart create-poll-container">
+    </div> --}}
+
+  </div>
+
+  <div class="col-md-4">
+    <div class="card card-body latest-polls-container poll-info-progress">
+      <h2>Poll Info</h2>
+      <div class="poll-percent-container py-3">
+        {{#each poll.polls}}
+          <p>{{pollOption}} <small class="ml-auto">{{pollCount}} votes</small></p>
+          <div class="progress my-2 poll-progress">
+            <div class="progress-bar" role="progressbar" style="width: {{getPollPercent ../poll.totalVote pollCount}}%;" aria-valuenow="{{getPollPercent ../poll.totalVote pollCount}}" aria-valuemin="0" aria-valuemax="100">{{getPollPercent ../poll.totalVote pollCount}}%</div>
+          </div>
+        {{/each}}
+      </div>
+
+    </div>
+  </div>
+  
+
+</div>
+
+<script type="text/javascript" src="/assets/js/Chart.min.js"></script>
+<script>
+  const colors = ['#EF6C00', '#EF6C00', '#3498db', '#27ae60', '#2980b9', '#2c3e50'];
+  function getRandomColor(index) {
+    let letters = '0123456789';
+    let color = '#';
+    for(let i = 0;i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 10)];
+    }
+    return color;
+  }
+  const ctx = document.getElementById("myChart").getContext("2d");
+  let pollsArr = JSON.parse(decodeURI("{{this.jsonPoll}}"));
+  console.log(pollsArr);
+  let pollOptions = [];
+  let pollCounts = [];
+  let backgroundColors = [];
+  
+  pollsArr.map((item) => {
+    backgroundColors.push(getRandomColor());
+    pollOptions.push(item.pollOption);
+    pollCounts.push(item.pollCount);
+  });
+
+  let top3 = ``;
+  for(let i = 0; i<3; i++) {
+    top3 += `<p>${pollsArr[i].pollOption} <span>${pollsArr[i].pollCount} votes</span></p>`;
+  }
+  document.getElementById('top-3').innerHTML = top3;
+  
+  const myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      datasets: [{
+          data: pollCounts,
+          backgroundColor: backgroundColors,
+          borderWidth: 4
+      }],
+      labels: pollOptions,
+    },
+    options: {
+      tooltips: {
+          mode: 'point'
+      },
+      legend: {
+        position: 'bottom',
+        display: true,
+        labels: {
+          fontFamily: 'Raleway',
+          fontColor: 'black',
+          fontSize: 14,
+          boxWidth: 20,
+        }
+      }
+    }
+  });
+
+
+</script>
