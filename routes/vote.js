@@ -1,8 +1,10 @@
 const router = require('express').Router();
 const Polls = require('../models/Polls');
 const { check, validationResult } = require('express-validator/check');
+const { alreadyVoted } = require('../helpers/cookieCheck');
 
-router.post('/:id', (req, res) => {
+router.post('/:id', alreadyVoted, (req, res) => {
+  
   req.assert('pollOptions', 'Please Vote atleast one option').notEmpty();
   let errors = req.validationErrors();
   if(errors) {
@@ -21,6 +23,11 @@ router.post('/:id', (req, res) => {
       });
       
       poll.save().then(poll => {
+        if(req.cookies.piepoll_vote_status) {
+          res.cookie('piepoll_vote_status', `${req.cookies.piepoll_vote_status}-${poll.id}`);
+        } else {
+          res.cookie('piepoll_vote_status', `${poll.id}`);
+        }
         req.flash('success', {msg: `You are successfully Voted for ${req.body.pollOptions}`});
         return res.redirect(`/poll/info/${req.params.id}`);
       });

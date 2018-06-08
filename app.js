@@ -4,6 +4,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash');
 const expressValidator = require('express-validator');
@@ -13,6 +14,7 @@ const app = express();
 
 const { getPollPercent } = require('./helpers/hbs');
 const keys = require('./config/keys');
+
 mongoose.connect(keys.mongoURI).then(() => console.log('Connected to mongoDB')).catch(err => console.log(err));
 
 const indexRoute = require('./routes/index');
@@ -33,10 +35,11 @@ app.engine('handlebars', exphbs({
 }));
 app.set('view engine', 'handlebars');
 app.use(expressValidator());
+app.use(cookieParser());
 app.use(session({
   secret: 'pollsannclone',
-  resave: false,
-  saveUninitialized: false
+  resave: true,
+  saveUninitialized: true
 }));
 app.use(flash());
 app.use(morgan('dev'));
