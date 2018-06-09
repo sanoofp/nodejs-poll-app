@@ -20,7 +20,6 @@ $(document).ready(function() {
   });
 });
 function copylink() {
-  console.log('lc');
   let pollLink = document.getElementById('pollLink')
   pollLink.select();
   document.execCommand('copy');
@@ -28,7 +27,7 @@ function copylink() {
 }
 let pollCount = 3;
 let createNode = function() {
-  if (document.querySelector('.poll-option-input:last-of-type').value != "") {
+  // if (document.querySelector('.poll-option-input:last-of-type').value != "") {
     pollCount++;
     let node = document.createElement('input');
     node.setAttribute('type', 'text');
@@ -38,7 +37,8 @@ let createNode = function() {
     node.classList.add('form-control');
     node.classList.add('poll-option-input');
     document.querySelector('#poll-options').appendChild(node);
-    document.querySelector('.poll-option-input:last-of-type').addEventListener('blur', createNode);
-  }
+    // document.querySelector('.poll-option-input:last-of-type').addEventListener('blur', createNode);
+  // }
 }
-document.querySelector('.poll-option-input:last-of-type').addEventListener('blur',createNode);
+document.querySelector('.add-more').addEventListener('click', createNode);
+// document.querySelector('.poll-option-input:last-of-type').addEventListener('blur',createNode);

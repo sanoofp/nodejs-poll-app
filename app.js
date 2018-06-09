@@ -12,9 +12,8 @@ const compression = require('compression');
 
 const app = express();
 
-const { getPollPercent } = require('./helpers/hbs');
+const { getPollPercent, encodeURI, FBShare } = require('./helpers/hbs');
 const keys = require('./config/keys');
-
 mongoose.connect(keys.mongoURI).then(() => console.log('Connected to mongoDB')).catch(err => console.log(err));
 
 const indexRoute = require('./routes/index');
@@ -30,7 +29,9 @@ app.use(bodyParser.json());
 app.engine('handlebars', exphbs({ 
   defaultLayout: 'main',
   helpers: {
-    getPollPercent: getPollPercent 
+    getPollPercent: getPollPercent,
+    encodeURI: encodeURI,
+    FBShare: FBShare
   } 
 }));
 app.set('view engine', 'handlebars');
@@ -38,8 +39,8 @@ app.use(expressValidator());
 app.use(cookieParser());
 app.use(session({
   secret: 'pollsannclone',
-  resave: true,
-  saveUninitialized: true
+  resave: false,
+  saveUninitialized: false
 }));
 app.use(flash());
 app.use(morgan('dev'));
