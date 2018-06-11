@@ -39,8 +39,8 @@ app.use(expressValidator());
 app.use(cookieParser());
 app.use(session({
   secret: 'pollsannclone',
-  resave: false,
-  saveUninitialized: false
+  resave: true,
+  saveUninitialized: true
 }));
 app.use(flash());
 app.use(morgan('dev'));

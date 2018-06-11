@@ -20,7 +20,7 @@
           <div class="col-md-4">
             <h4>Share poll</h4>
             <div class="share-btns">
-              <a href="http://www.facebook.com" class="btn btn-outline-primary bs-fb btn-block share-btn" target="_blank"><i class="fa fa-facebook"></i> Facebook</a>
+              <a rel="nofollow" href="https://www.facebook.com/sharer/sharer.php?u=https://piepoll.herokuapp.com/poll/{{poll.id}}" class="btn btn-outline-primary bs-fb btn-block share-btn" target="_blank"><i class="fa fa-facebook"></i> Facebook</a>
               <a href="{{encodeURI poll.id}}" class="btn btn-outline-primary bs-whatsapp btn-block share-btn" target="_blank"><i class="fa fa-whatsapp"></i> Whatsapp</a>
             </div>
           </div>
@@ -112,4 +112,5 @@
       }
     }
   });
+
 </script>
