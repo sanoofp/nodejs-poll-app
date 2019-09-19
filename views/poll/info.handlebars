@@ -60,7 +60,7 @@
 
 <script type="text/javascript" src="/assets/js/Chart.min.js"></script>    
 <script>
-  const colors = ['#EF6C00', '#EF6C00', '#3498db', '#27ae60', '#2980b9', '#2c3e50'];
+ 
   function getRandomColor(index) {
     let letters = '0123456789';
     let color = '#';
@@ -70,8 +70,7 @@
     return color;
   }
   const ctx = document.getElementById("myChart").getContext("2d");
-  let pollsArr = JSON.parse(decodeURI("{{this.jsonPoll}}"));
-  console.log(pollsArr);
+  let pollsArr = JSON.parse(decodeURI("{{jsonPoll}}"));
   let pollOptions = [];
   let pollCounts = [];
   let backgroundColors = [];

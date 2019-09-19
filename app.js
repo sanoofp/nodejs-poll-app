@@ -19,6 +19,7 @@ mongoose.connect(keys.mongoURI).then(() => console.log('Connected to mongoDB')).
 const indexRoute = require('./routes/index');
 const pollRoute = require('./routes/poll');
 const voteRoute = require('./routes/vote');
+const api = require('./routes/api');
 
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -49,5 +50,6 @@ app.disable('x-powered-by');
 app.use('/', indexRoute);
 app.use('/poll', pollRoute);
 app.use('/vote', voteRoute);
+app.use('/api', api)
 
 app.listen(app.get('port'), () => console.log('Server running.'));

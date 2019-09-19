@@ -54,16 +54,6 @@ router.post('/create', (req, res) => {
 
 });
 
-//api for js
-router.get('/latest', (req, res) => {
-  Poll.find({})
-    .sort({date: 'desc'})
-    .limit(6)
-    .then(polls => {
-      res.json(polls);
-    });
-});
-
 router.get('/:id', (req, res) => {
   Poll.findOne({
     id: req.params.id
